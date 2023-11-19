@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 #################################################
 # Database Setup
 #################################################
-engine = create_engine("sqlite:///Resources/hawaii.sqlite")
+engine = create_engine("sqlite:///hawaii.sqlite") #do i need to desigate folder?
 
 # reflect an existing database into a new model
 Base = automap_base()
@@ -34,8 +34,7 @@ session = Session(engine)
 # Flask Setup
 #################################################
 
-
-
+app = Flask(__name__)
 
 #################################################
 # Flask Routes
