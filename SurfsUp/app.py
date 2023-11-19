@@ -40,11 +40,11 @@ app = Flask(__name__)
 # Flask Routes
 #################################################
 
-@app.route("/api/v1.0/justice-league")
-def justice_league():
-    """Return the justice league data as json"""
+#@app.route("/api/v1.0/justice-league")
+#def justice_league():
+    #"""Return the justice league data as json"""
 
-    return jsonify(justice_league_members)
+    #return jsonify(justice_league_members)
 
 
 @app.route("/")
@@ -63,7 +63,7 @@ def welcome():
     )
 
 
-@app.route("/api/v1.0/justice-league/<real_name>")
+@app.route("/api/v1.0/precipitation")
 def justice_league_character(real_name):
     """Fetch the Justice League character whose real_name matches
        the path variable supplied by the user, or a 404 if not."""
