@@ -47,16 +47,12 @@ app = Flask(__name__)
 @app.route("/")
 def welcome():
     return (
-        f"Welcome to the Justice League API!<br/>"
+        f"Congratulations! You've decided to treat yourself to a long holiday vacation in Honolulu, Hawaii. To help with your trip planning, here is a climate analysis about the area. The following sections will help accomplish this!<br/>"
         f"Available Routes:<br/>"
-        f"/api/v1.0/justice-league<br/>"
-        f"/api/v1.0/justice-league/Arthur%20Curry<br/>"
-        f"/api/v1.0/justice-league/Bruce%20Wayne<br/>"
-        f"/api/v1.0/justice-league/Victor%20Stone<br/>"
-        f"/api/v1.0/justice-league/Barry%20Allen<br/>"
-        f"/api/v1.0/justice-league/Hal%20Jordan<br/>"
-        f"/api/v1.0/justice-league/Clark%20Kent/Kal-El<br/>"
-        f"/api/v1.0/justice-league/Princess%20Diana"
+        f"/api/v1.0/precipitation<br/>"
+        f"/api/v1.0/api/v1.0/stations<br/>"
+        f"/api/v1.0/tobs<br/>"
+        f"/api/v1.0/<start> and /api/v1.0/<start>/<end><br/>"
     )
 
 
