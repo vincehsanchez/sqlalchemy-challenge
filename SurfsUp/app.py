@@ -15,24 +15,17 @@ import matplotlib.pyplot as plt
 #################################################
 # Database Setup
 #################################################
-engine = create_engine("sqlite:///titanic.sqlite")
+engine = create_engine("sqlite:///Resources/hawaii.sqlite")
 
 # reflect an existing database into a new model
 Base = automap_base()
 # reflect the tables
 Base.prepare(autoload_with=engine)
 
-# Save reference to the table
-Passenger = Base.classes.passenger
-
-
-# reflect an existing database into a new model
-
-# reflect the tables
-
-
-# Save references to each table
-
+# Save references to the table
+Base.classes.keys()
+measurement_ref = Base.classes.measurement
+station_ref = Base.classes.station
 
 # Create our session (link) from Python to the DB
 
