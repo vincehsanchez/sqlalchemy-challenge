@@ -7,10 +7,9 @@ from sqlalchemy import create_engine, func
 import numpy as np
 import pandas as pd
 import datetime as dt
-%matplotlib inline
-from matplotlib import style
-style.use('fivethirtyeight')
-import matplotlib.pyplot as plt
+##from matplotlib import style
+##style.use('fivethirtyeight')
+##import matplotlib.pyplot as plt
 
 #################################################
 # Database Setup
@@ -55,7 +54,6 @@ def welcome():
         f"/api/v1.0/<start> and /api/v1.0/<start>/<end><br/>"
     )
 
-
 @app.route("/api/v1.0/precipitation")
 def justice_league_character(real_name):
     """Fetch the Justice League character whose real_name matches
@@ -69,7 +67,6 @@ def justice_league_character(real_name):
             return jsonify(character)
 
     return jsonify({"error": f"Character with real_name {real_name} not found."}), 404
-
 
 if __name__ == "__main__":
     app.run(debug=True)
