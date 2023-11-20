@@ -90,6 +90,8 @@ def tobs():
 @app.route("/api/v1.0/<start>")
 @app.route("/api/v1.0/<start>/<end>") #are we supposed to do it this way?
 def start_end():
+    session = Session(engine)
+    
     return "let us start and startend"
 
 if __name__ == "__main__":
