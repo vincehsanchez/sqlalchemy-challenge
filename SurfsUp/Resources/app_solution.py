@@ -85,7 +85,7 @@ def tobs():
     filter(measurement_ref.date >= last_year_date).all()
     session.close()
     temps_list = list(np.ravel(temp_data))
-    return jsonify(temp_data)
+    return jsonify(temps_list)
 
 #@app.route("/api/v1.0/stations")
 #def start_end():
