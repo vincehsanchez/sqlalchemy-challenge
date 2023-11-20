@@ -45,6 +45,7 @@ def congrats():
         f"/api/v1.0/precipitation<br/>"
         f"/api/v1.0/stations<br/>"
         f"/api/v1.0/tobs<br/>"
+        f"/api/v1.0/<start>"
     )
 # 4. Define what to do when a user hits the /about route
 @app.route("/api/v1.0/precipitation")
@@ -87,24 +88,32 @@ def tobs():
     temps_list = list(np.ravel(temp_data))
     return jsonify(temps_list)
 
-@app.route("/api/v1.0/<start>")
-@app.route("/api/v1.0/<start>/<end>") #are we supposed to do it this way?
-#def start_end():
+@app.route("/api/v1.0/<start>") # ithink this is from any start to end..
+@app.route("/api/v1.0/<start>/<end>") #i think this is any start and any end...
    # session = Session(engine)
     #temp_data = session.query(measurement_ref.tobs)
-def user_start(start_date):
+#def user_start(start_date):
+    #"""Fetch the max, min, avg of temps with start_date that is within
+    #   the date range, or a 404 if not."""
+    #select_date_stats = [func.min(measurement_ref.tobs), func.max(measurement_ref.tobs), func.avg(measurement_ref.tobs)] #use 'avg' not 'mean'
+    #if not end:
+        #date_query == session.query(*sel)
+            #return jsonify(character)
+    #canonicalized = start_date.replace(" "," ").lower()
+    #for character in temp_data:
+        #search_term = character["real_name"].replace(" ", " ").lower()
+def user_start_date(start_date):
     """Fetch the max, min, avg of temps with start_date that is within
        the date range, or a 404 if not."""
-    session.query(func.min(measurement_ref.tobs), func.max(measurement_ref.tobs), func.avg(measurement_ref.tobs)).\ #use 'avg' not 'mean'
+    temp_data = session.query(measurement_ref.tobs)
+    canonicalized = start_date.replace(" "-" "-" ")
+    for date, tobs in temp_data:
+        search_dates = date["start_date"].replace(" ", "").lower()
 
-    canonicalized = start_date.replace(" "," ").lower()
-    for character in temp_data:
-        search_term = character["real_name"].replace(" ", " ").lower()
+        if search_dates == canonicalized:
+            return jsonify(date, tobs)        
 
-        if search_term == canonicalized:
-            return jsonify(character)
-
-    return jsonify({"error": f"Character with real_name {real_name} not found."}), 404
+    return jsonify({"error": f"Search with chosen date {start_date} not found."}), 404
 
 if __name__ == "__main__":
     app.run(debug=True)
