@@ -28,7 +28,7 @@ session = Session(engine)
 # Flask Setup
 ##################################################
 # 1. import Flask
-from flask import Flask
+from flask import Flask, jsonify
 # 2. Create an app, being sure to pass __name__
 app = Flask(__name__)
 # 3. Define what to do when a user hits the index route #why does this work only from another file?
@@ -50,29 +50,41 @@ def congrats():
 @app.route("/api/v1.0/precipitation")
 def precipitation():
     #print("Server received request for 'precipitation' page...")
-    #last_year_date = dt.date(2017, 8, 23) - dt.timedelta(days=365)
+    last_year_date = dt.date(2017, 8, 23) - dt.timedelta(days=365)
     # Perform a query to retrieve the data and precipitation scores
     #we have date range, find precipitation
-    #precipitty_data = session.query(measurement_ref.date, measurement_ref.prcp).\
-        #filter(measurement_ref.date >= last_year_date).all()
-    #session.close()
+    precipitty_data = session.query(measurement_ref.date, measurement_ref.prcp).\
+        filter(measurement_ref.date >= last_year_date).all()
+    session.close()
         #we need dict
-    #all_precipitty = []
-    #for date, prcp in precipitty_data:
-       # precipitty_dict = {}
-       # precipitty_dict["date"] = date
-       # precipitty_dict["prcp"] = prcp
-       # all_precipitty.append(precipitty_dict)
-    return "Welcome to my 'precipitation' page!"
-        
+    all_precipitty = []
+    for date, prcp in precipitty_data:
+        precipitty_dict = {}
+        precipitty_dict["date"] = date
+        precipitty_dict["prcp"] = prcp
+        all_precipitty.append(precipitty_dict)
+    '''Precipitation of Past Year'''
+    return jsonify(all_precipitty)
         
 @app.route("/api/v1.0/stations")
 def stations():
-    return "Look at these stations"
+    session = Session(engine)
+    # Query all stations
+    all_stations = session.query(station_ref.station).all()
+    session.close()
+    station_list = list(np.ravel(all_stations))
+    '''Look at all these stations'''
+    return jsonify(station_list)
 
 @app.route("/api/v1.0/tobs")
 def tobs():
-    return "Look at tobs"
+    last_year_date = dt.date(2017, 8, 23) - dt.timedelta(days=365)
+    temp_data = session.query(measurement_ref.tobs).\
+    filter(measurement_ref.station == 'USC00519281').\
+    filter(measurement_ref.date >= last_year_date).all()
+    session.close()
+    station_list = list(np.ravel(temp_data))
+    return jsonify(temp_data)
 
 #@app.route("/api/v1.0/stations")
 #def start_end():
