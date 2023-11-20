@@ -78,12 +78,13 @@ def stations():
 
 @app.route("/api/v1.0/tobs")
 def tobs():
+    session = Session(engine)
     last_year_date = dt.date(2017, 8, 23) - dt.timedelta(days=365)
     temp_data = session.query(measurement_ref.tobs).\
     filter(measurement_ref.station == 'USC00519281').\
     filter(measurement_ref.date >= last_year_date).all()
     session.close()
-    station_list = list(np.ravel(temp_data))
+    temps_list = list(np.ravel(temp_data))
     return jsonify(temp_data)
 
 #@app.route("/api/v1.0/stations")
