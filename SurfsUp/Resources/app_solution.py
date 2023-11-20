@@ -8,7 +8,7 @@ import pandas as pd
 import datetime as dt
 #could it not have been working because i had more than one end?
 from matplotlib import style ##
-##style.use('fivethirtyeight')
+style.use('fivethirtyeight') ##
 import matplotlib.pyplot as plt ##
 #################################################
 # Database Setup
@@ -36,10 +36,11 @@ app = Flask(__name__)
 def congrats():
     #print("Server received request for 'welcome' page...")
     return (
-        f"Congratulations! You've decided to treat yourself to a long holiday vacation in Honolulu, Hawaii.<br/>"
+        f"Congratulations!<br/>"
+        f"You've decided to treat yourself to a long holiday vacation in Honolulu, Hawaii.<br/>"
         f"To help with your trip planning, here is a climate analysis about the area.<br/>" 
         f"The following sections will help accomplish this!<br/>"
-        f"hope this is working<br/>"
+        f"<br/>"
         f"Things to consider (Routes) to help you plan:<br/>"
         f"/api/v1.0/precipitation<br/>"
         f"/api/v1.0/stations<br/>"
@@ -49,8 +50,15 @@ def congrats():
 @app.route("/api/v1.0/precipitation")
 def precipitation():
     #print("Server received request for 'precipitation' page...")
-    return "Welcome to my 'precipitation' page!"
-
+    last_year_date = dt.date(2017, 8, 23) - dt.timedelta(days=365)
+    # Perform a query to retrieve the data and precipitation scores
+    #we have date range, find precipitation
+    percipitty_data = session.query(measurement_ref.date, measurement_ref.prcp).\
+        filter(measurement_ref.date >= last_year_date).all()
+    return (
+        
+        "Welcome to my 'precipitation' page!"
+    )
 @app.route("/api/v1.0/stations")
 def stations():
     return "Look at these stations"
