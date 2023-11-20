@@ -7,10 +7,12 @@ import numpy as np
 import pandas as pd
 import datetime as dt
 #could it not have been working because i had more than one end?
-
-
-
-
+##from matplotlib import style
+##style.use('fivethirtyeight')
+##import matplotlib.pyplot as plt
+#################################################
+# Database Setup
+#################################################
 # 1. import Flask
 from flask import Flask
 # 2. Create an app, being sure to pass __name__
