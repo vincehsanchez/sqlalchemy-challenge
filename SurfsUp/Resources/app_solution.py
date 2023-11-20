@@ -55,8 +55,8 @@ def precipitation():
     #we have date range, find precipitation
     precipitty_data = session.query(measurement_ref.date, measurement_ref.prcp).\
         filter(measurement_ref.date >= last_year_date).all()
+    session.close()
         #we need dict
-    #precipitty = []
     all_precipitty = []
     for date, prcp in precipitty_data:
         precipitty_dict = {}
