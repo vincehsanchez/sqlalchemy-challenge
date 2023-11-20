@@ -87,9 +87,12 @@ def tobs():
     temps_list = list(np.ravel(temp_data))
     return jsonify(temps_list)
 
-#@app.route("/api/v1.0/stations")
-#def start_end():
-    #return "Look at these"
+@app.route("/api/v1.0/<start>")
+@app.route("/api/v1.0/<start>/<end>") #are we supposed to do it this way?
+def start_end():
+    return "let us start and startend"
+
+@
 
 if __name__ == "__main__":
     app.run(debug=True)
