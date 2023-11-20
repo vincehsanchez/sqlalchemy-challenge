@@ -89,15 +89,17 @@ def tobs():
 
 @app.route("/api/v1.0/<start>")
 @app.route("/api/v1.0/<start>/<end>") #are we supposed to do it this way?
-def start_end():
-    session = Session(engine)
-def justice_league_character(real_name):
-    """Fetch the Justice League character whose real_name matches
-       the path variable supplied by the user, or a 404 if not."""
+#def start_end():
+   # session = Session(engine)
+    #temp_data = session.query(measurement_ref.tobs)
+def user_start(start_date):
+    """Fetch the max, min, avg of temps with start_date that is within
+       the date range, or a 404 if not."""
+    session.query(func.min(measurement_ref.tobs), func.max(measurement_ref.tobs), func.avg(measurement_ref.tobs)).\ #use 'avg' not 'mean'
 
-    canonicalized = real_name.replace(" ", "").lower()
-    for character in justice_league_members:
-        search_term = character["real_name"].replace(" ", "").lower()
+    canonicalized = start_date.replace(" "," ").lower()
+    for character in temp_data:
+        search_term = character["real_name"].replace(" ", " ").lower()
 
         if search_term == canonicalized:
             return jsonify(character)
