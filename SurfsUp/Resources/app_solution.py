@@ -50,15 +50,21 @@ def congrats():
 @app.route("/api/v1.0/precipitation")
 def precipitation():
     #print("Server received request for 'precipitation' page...")
-    #last_year_date = dt.date(2017, 8, 23) - dt.timedelta(days=365)
+    last_year_date = dt.date(2017, 8, 23) - dt.timedelta(days=365)
     # Perform a query to retrieve the data and precipitation scores
     #we have date range, find precipitation
-    #percipitty_data = session.query(measurement_ref.date, measurement_ref.prcp).\
-        #filter(measurement_ref.date >= last_year_date).all()
+    precipitty_data = session.query(measurement_ref.date, measurement_ref.prcp).\
+        filter(measurement_ref.date >= last_year_date).all()
         #we need dict
-    #precipitty = {date:}
+    #precipitty = []
+    all_precipitty = []
+    for date, prcp in precipitty_data:
+        precipitty_dict = {}
+        precipitty_dict["date"] = date
+        precipitty_dict["prcp"] = prcp
+        all_precipitty.append(precipitty_dict)
     return "Welcome to my 'precipitation' page!"
-        #we need dict
+        
         
 @app.route("/api/v1.0/stations")
 def stations():
