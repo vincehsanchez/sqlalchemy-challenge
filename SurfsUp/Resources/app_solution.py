@@ -91,8 +91,18 @@ def tobs():
 @app.route("/api/v1.0/<start>/<end>") #are we supposed to do it this way?
 def start_end():
     session = Session(engine)
-    
-    return "let us start and startend"
+def justice_league_character(real_name):
+    """Fetch the Justice League character whose real_name matches
+       the path variable supplied by the user, or a 404 if not."""
+
+    canonicalized = real_name.replace(" ", "").lower()
+    for character in justice_league_members:
+        search_term = character["real_name"].replace(" ", "").lower()
+
+        if search_term == canonicalized:
+            return jsonify(character)
+
+    return jsonify({"error": f"Character with real_name {real_name} not found."}), 404
 
 if __name__ == "__main__":
     app.run(debug=True)
