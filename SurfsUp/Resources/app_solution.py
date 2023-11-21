@@ -90,29 +90,38 @@ def tobs():
     temps_list = list(np.ravel(temp_data))
     return jsonify(temps_list)
 
-@app.route("/api/v1.0/<start>") # ithink this is from any start to the end of date range..
-def user_start(start_date):
+@app.route("/api/v1.0/temp/<start>") # ithink this is from any start to the end of date range..
+def user_start(start):
+    #TypeError: user_start() got an unexpected keyword argument 'start', we HAVE to use "start" to make code work, why?
     session = Session(engine)
-    #temp_data = session.query(measurement_ref.tobs) #this might be unnecessary
     """Fetch the max, min, avg of temps with start_date that is within
        the date range, or a 404 if not."""
     #lets get temps
     select_temps = [func.min(measurement_ref.tobs), func.max(measurement_ref.tobs), func.avg(measurement_ref.tobs)] #use 'avg' not 'mean'
-    select_start = session.query(select_temps).\
-        filter(measurement_ref >= start_date).all()
-        #filter(measurement_ref )
+    #sqlalchemy.exc.ArgumentError: Column expression or FROM clause expected, got [<sqlalchemy.sql.functions.min at 0x165ba4d10; min>, <sqlalchemy.sql.functions.max at 0x16515d490; max>, <sqlalchemy.sql.functions.Function at 0x1645efe10; avg>].
+    select_start = session.query(*select_temps).\
+        filter(measurement_ref.date >= start).all() #TypeError: '>=' not supported between instances of 'DeclarativeMeta' and 'str'
+        #filter(measurement_ref)
+    session.close()
     user_start_query = list(np.ravel(select_start))
     return jsonify(user_start_query)
     
-    
-    
-    
+@app.route("/api/v1.0/temp/start/end") # ithink this is from any start to any end within date range..
+def user_start_end(start, end):
+    session = Session(engine)
+    """Fetch the max, min, avg of temps with start_date that is within
+       the date range, or a 404 if not."""
+    #lets get temps
+    select_temps = [func.min(measurement_ref.tobs), func.max(measurement_ref.tobs), func.avg(measurement_ref.tobs)] #use 'avg' not 'mean'
+    select_start_end = session.query(*select_temps).\
+        filter(measurement_ref.date >= start).\
+        filter(measurement_ref.date <= end).all()
+    session.close()
+    start_end_query = list(np.ravel(select_start_end))
+    return jsonify(start_end_query)   
     
     #if not start_date:
         #tart_date_query = session.query(*select_temps) #TA James and Zeb suggested to go this route.
-    
-
-
 
     # return jsonify({"error": f"Search with chosen date {start_date_query} not found."}), 404
 
