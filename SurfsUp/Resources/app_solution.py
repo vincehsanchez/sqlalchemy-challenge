@@ -90,32 +90,23 @@ def tobs():
     temps_list = list(np.ravel(temp_data))
     return jsonify(temps_list)
 
-#@app.route("/api/v1.0/<start>") # ithink this is from any start to the end of date range..
-#@app.route("/api/v1.0/<start>/<end>") #i think this is any start and to any end...within date range
-    #session = Session(engine)
-    #temp_data = session.query(measurement_ref.tobs)
-#def user_start(start_date):
-    #"""Fetch the max, min, avg of temps with start_date that is within
-    #   the date range, or a 404 if not."""
-    #select_date_stats = [func.min(measurement_ref.tobs), func.max(measurement_ref.tobs), func.avg(measurement_ref.tobs)] #use 'avg' not 'mean'
-    #if not end:
-        #date_query == session.query(*sel)
-            #return jsonify(character)
+@app.route("/api/v1.0/<start>") # ithink this is from any start to the end of date range..
+def user_start(start_date):
+    session = Session(engine)
+    temp_data = session.query(measurement_ref.tobs)
+    """Fetch the max, min, avg of temps with start_date that is within
+       the date range, or a 404 if not."""
+    select_date_temps = [func.min(measurement_ref.tobs), func.max(measurement_ref.tobs), func.avg(measurement_ref.tobs)] #use 'avg' not 'mean'
+    if not end:
+        date_query == session.query(*sel) #TA James and Zeb suggested to go this route.
+    return jsonify(date_query)
     #canonicalized = start_date.replace(" "," ").lower()
     #for character in temp_data:
-        #search_term = character["real_name"].replace(" ", " ").lower()
-#def user_start_date(start_date):
-    #"""Fetch the max, min, avg of temps with start_date that is within
-      #the date range, or a 404 if not."""
-   #temp_data = session.query(measurement_ref.tobs)
-    #canonicalized = start_date.replace(" "-" "-" ")
-    #for date, tobs in temp_data:
-       #search_dates = date["start_date"].replace(" ", "").lower()
-
-        #if search_dates == canonicalized:
-            #return jsonify(date, tobs)        
+        #search_term = character["real_name"].replace(" ", " ").lower()     
 
     #return jsonify({"error": f"Search with chosen date {start_date} not found."}), 404
+
+#@app.route("/api/v1.0/<start>/<end>") #i think this is any start and to any end...within date range
 
 if __name__ == "__main__":
     app.run(debug=True)
