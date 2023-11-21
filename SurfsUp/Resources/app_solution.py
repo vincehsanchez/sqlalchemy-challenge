@@ -96,10 +96,12 @@ def user_start(start_date):
     temp_data = session.query(measurement_ref.tobs)
     """Fetch the max, min, avg of temps with start_date that is within
        the date range, or a 404 if not."""
-    select_date_temps = [func.min(measurement_ref.tobs), func.max(measurement_ref.tobs), func.avg(measurement_ref.tobs)] #use 'avg' not 'mean'
+    #lets get temps
+    start_date_temps = [func.min(measurement_ref.tobs), func.max(measurement_ref.tobs), func.avg(measurement_ref.tobs)] #use 'avg' not 'mean'
     if not end:
-        date_query == session.query(*sel) #TA James and Zeb suggested to go this route.
-    return jsonify(date_query)
+        start_date_query == session.query(*select_start_date) #TA James and Zeb suggested to go this route.
+    return jsonify({"error": f"Search with chosen date {start_date_query} not found."}), 404
+
     #canonicalized = start_date.replace(" "," ").lower()
     #for character in temp_data:
         #search_term = character["real_name"].replace(" ", " ").lower()     
