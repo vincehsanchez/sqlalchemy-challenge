@@ -112,8 +112,8 @@ def user_start_end(start, end):
     """Fetch the max, min, avg of temps with start_date that is within
        the date range, or a 404 if not."""
     #lets get temps
-    select_temps = [func.min(measurement_ref.tobs), func.max(measurement_ref.tobs), func.avg(measurement_ref.tobs)] #use 'avg' not 'mean'
-    select_start_end = session.query(*select_temps).\
+    select = [func.min(measurement_ref.tobs), func.max(measurement_ref.tobs), func.avg(measurement_ref.tobs)] #use 'avg' not 'mean'
+    select_start_end = session.query(*select).\
         filter(measurement_ref.date >= start).\
         filter(measurement_ref.date <= end).all()
     session.close()
