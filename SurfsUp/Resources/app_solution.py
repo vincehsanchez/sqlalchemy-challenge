@@ -97,16 +97,22 @@ def user_start(start_date):
     """Fetch the max, min, avg of temps with start_date that is within
        the date range, or a 404 if not."""
     #lets get temps
-    start_date_temps = [func.min(measurement_ref.tobs), func.max(measurement_ref.tobs), func.avg(measurement_ref.tobs)] #use 'avg' not 'mean'
-    if not end:
-        start_date_query == session.query(*select_start_date) #TA James and Zeb suggested to go this route.
-    return jsonify({"error": f"Search with chosen date {start_date_query} not found."}), 404
+    select_temps = [func.min(measurement_ref.tobs), func.max(measurement_ref.tobs), func.avg(measurement_ref.tobs)] #use 'avg' not 'mean'
+    select_start = session.query(select_temps).\
+    user_start_query = list(np.ravel(temp_data))
+    return jsonify(user_start_query)
+    
+    
+    
+    
+    
+    #if not start_date:
+        #tart_date_query = session.query(*select_temps) #TA James and Zeb suggested to go this route.
+    
 
-    #canonicalized = start_date.replace(" "," ").lower()
-    #for character in temp_data:
-        #search_term = character["real_name"].replace(" ", " ").lower()     
 
-    #return jsonify({"error": f"Search with chosen date {start_date} not found."}), 404
+
+    # return jsonify({"error": f"Search with chosen date {start_date_query} not found."}), 404
 
 #@app.route("/api/v1.0/<start>/<end>") #i think this is any start and to any end...within date range
 
