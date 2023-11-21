@@ -93,13 +93,15 @@ def tobs():
 @app.route("/api/v1.0/<start>") # ithink this is from any start to the end of date range..
 def user_start(start_date):
     session = Session(engine)
-    temp_data = session.query(measurement_ref.tobs)
+    #temp_data = session.query(measurement_ref.tobs) #this might be unnecessary
     """Fetch the max, min, avg of temps with start_date that is within
        the date range, or a 404 if not."""
     #lets get temps
     select_temps = [func.min(measurement_ref.tobs), func.max(measurement_ref.tobs), func.avg(measurement_ref.tobs)] #use 'avg' not 'mean'
     select_start = session.query(select_temps).\
-    user_start_query = list(np.ravel(temp_data))
+        filter(measurement_ref >= start_date).all()
+        #filter(measurement_ref )
+    user_start_query = list(np.ravel(select_start))
     return jsonify(user_start_query)
     
     
