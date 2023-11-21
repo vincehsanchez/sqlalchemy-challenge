@@ -19,7 +19,7 @@ Base = automap_base()
 # reflect the tables
 Base.prepare(autoload_with=engine)
 # Save references to the table
-Base.classes.keys()
+print(Base.classes.keys())
 measurement_ref = Base.classes.measurement
 station_ref = Base.classes.station
 # Create our session (link) from Python to the DB
@@ -45,7 +45,9 @@ def congrats():
         f"/api/v1.0/precipitation<br/>"
         f"/api/v1.0/stations<br/>"
         f"/api/v1.0/tobs<br/>"
-        f"/api/v1.0/<start>"
+        f"/api/v1.0/temp/start<br/>"
+        f"/api/v1.0/temp/start/end<br/>"
+        f"<p>'start' and 'end' date should be in the format MMDDYYYY.</p>"
     )
 # 4. Define what to do when a user hits the /about route
 @app.route("/api/v1.0/precipitation")
@@ -88,9 +90,9 @@ def tobs():
     temps_list = list(np.ravel(temp_data))
     return jsonify(temps_list)
 
-@app.route("/api/v1.0/<start>") # ithink this is from any start to end..
-@app.route("/api/v1.0/<start>/<end>") #i think this is any start and any end...
-   # session = Session(engine)
+#@app.route("/api/v1.0/<start>") # ithink this is from any start to the end of date range..
+#@app.route("/api/v1.0/<start>/<end>") #i think this is any start and to any end...within date range
+    #session = Session(engine)
     #temp_data = session.query(measurement_ref.tobs)
 #def user_start(start_date):
     #"""Fetch the max, min, avg of temps with start_date that is within
@@ -102,18 +104,18 @@ def tobs():
     #canonicalized = start_date.replace(" "," ").lower()
     #for character in temp_data:
         #search_term = character["real_name"].replace(" ", " ").lower()
-def user_start_date(start_date):
-    """Fetch the max, min, avg of temps with start_date that is within
-       the date range, or a 404 if not."""
-    temp_data = session.query(measurement_ref.tobs)
-    canonicalized = start_date.replace(" "-" "-" ")
-    for date, tobs in temp_data:
-        search_dates = date["start_date"].replace(" ", "").lower()
+#def user_start_date(start_date):
+    #"""Fetch the max, min, avg of temps with start_date that is within
+      #the date range, or a 404 if not."""
+   #temp_data = session.query(measurement_ref.tobs)
+    #canonicalized = start_date.replace(" "-" "-" ")
+    #for date, tobs in temp_data:
+       #search_dates = date["start_date"].replace(" ", "").lower()
 
-        if search_dates == canonicalized:
-            return jsonify(date, tobs)        
+        #if search_dates == canonicalized:
+            #return jsonify(date, tobs)        
 
-    return jsonify({"error": f"Search with chosen date {start_date} not found."}), 404
+    #return jsonify({"error": f"Search with chosen date {start_date} not found."}), 404
 
 if __name__ == "__main__":
     app.run(debug=True)
