@@ -28,7 +28,8 @@ In this section, you’ll use Python and SQLAlchemy to do a basic climate analys
 4. Load the query results into a Pandas DataFrame. Explicitly set the column names.
 5. Sort the DataFrame values by "date".
 6. Plot the results by using the DataFrame plot method, as the following image shows:
-   
+<img width="468" alt="precipitation jpg" src="https://github.com/vincehsanchez/sqlalchemy-challenge/assets/141890646/894dba1e-ef51-4bab-add3-7b43409b0520">
+
 8. Use Pandas to print the summary statistics for the precipitation data.
 
 **Station Analysis**
