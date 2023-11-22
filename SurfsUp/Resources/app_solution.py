@@ -92,7 +92,6 @@ def tobs():
 
 @app.route("/api/v1.0/temp/<start>") # ithink this is from any start to the end of date range..
 def user_start(start):
-    #TypeError: user_start() got an unexpected keyword argument 'start', we HAVE to use "start" to make code work, why?
     session = Session(engine)
     """Fetch the max, min, avg of temps with start_date that is within
        the date range, or a 404 if not."""
@@ -100,10 +99,8 @@ def user_start(start):
     select_temps = [func.min(measurement_ref.tobs), func.max(measurement_ref.tobs), func.avg(measurement_ref.tobs)] #use 'avg' not 'mean'
     #start_format = start
     dt.datetime.strptime(start, "%m%d%Y").strftime("%Y-%m-%d")
-    #sqlalchemy.exc.ArgumentError: Column expression or FROM clause expected, got [<sqlalchemy.sql.functions.min at 0x165ba4d10; min>, <sqlalchemy.sql.functions.max at 0x16515d490; max>, <sqlalchemy.sql.functions.Function at 0x1645efe10; avg>].
     select_start = session.query(*select_temps).\
-        filter(measurement_ref.date >= start).all() #TypeError: '>=' not supported between instances of 'DeclarativeMeta' and 'str'
-        #filter(measurement_ref)
+        filter(measurement_ref.date >= start).all()
     session.close()
     user_start_query = list(np.ravel(select_start))
     return jsonify(user_start_query)
