@@ -98,11 +98,11 @@ def user_start(start):
        the date range, or a 404 if not."""
     #lets get temps
     select_temps = [func.min(measurement_ref.tobs), func.max(measurement_ref.tobs), func.avg(measurement_ref.tobs)] #use 'avg' not 'mean'
-    start = "11222023"
-    start_object = dt.datetime.strptime(start, "%Y%m%d")
+    #start_format = start
+    dt.datetime.strptime(start, "%m%d%Y").strftime("%Y-%m-%d")
     #sqlalchemy.exc.ArgumentError: Column expression or FROM clause expected, got [<sqlalchemy.sql.functions.min at 0x165ba4d10; min>, <sqlalchemy.sql.functions.max at 0x16515d490; max>, <sqlalchemy.sql.functions.Function at 0x1645efe10; avg>].
     select_start = session.query(*select_temps).\
-        filter(measurement_ref.date >= start_object).all() #TypeError: '>=' not supported between instances of 'DeclarativeMeta' and 'str'
+        filter(measurement_ref.date >= start).all() #TypeError: '>=' not supported between instances of 'DeclarativeMeta' and 'str'
         #filter(measurement_ref)
     session.close()
     user_start_query = list(np.ravel(select_start))
@@ -115,19 +115,16 @@ def user_start_end(start, end):
        the date range, or a 404 if not."""
     #lets get temps
     select = [func.min(measurement_ref.tobs), func.max(measurement_ref.tobs), func.avg(measurement_ref.tobs)] #use 'avg' not 'mean'
+    start_format = start
+    dt.datetime.strptime(start_format, "%m%d%Y").strftime("%Y-%m-%d")
+    end_format = end
+    end_convert = dt.datetime.strptime(end_format, "%m%d%Y").strftime("%Y-%m-%d")
     select_start_end = session.query(*select).\
-        filter(measurement_ref.date >= start).\
-        filter(measurement_ref.date <= end).all()
+        filter(measurement_ref.date >= start_format).\
+        filter(measurement_ref.date <= end_convert).all()
     session.close()
     start_end_query = list(np.ravel(select_start_end))
     return jsonify(start_end_query)   
-    
-    #if not start_date:
-        #tart_date_query = session.query(*select_temps) #TA James and Zeb suggested to go this route.
-
-    # return jsonify({"error": f"Search with chosen date {start_date_query} not found."}), 404
-
-#@app.route("/api/v1.0/<start>/<end>") #i think this is any start and to any end...within date range
 
 if __name__ == "__main__":
     app.run(debug=True)
