@@ -99,7 +99,7 @@ def user_start(start):
     #lets get temps
     select_temps = [func.min(measurement_ref.tobs), func.max(measurement_ref.tobs), func.avg(measurement_ref.tobs)] #use 'avg' not 'mean'
     start = "11222023"
-    start_object = datetime.datetime.strptime(start, "%Y%m%d")
+    start_object = dt.datetime.strptime(start, "%Y%m%d")
     #sqlalchemy.exc.ArgumentError: Column expression or FROM clause expected, got [<sqlalchemy.sql.functions.min at 0x165ba4d10; min>, <sqlalchemy.sql.functions.max at 0x16515d490; max>, <sqlalchemy.sql.functions.Function at 0x1645efe10; avg>].
     select_start = session.query(*select_temps).\
         filter(measurement_ref.date >= start_object).all() #TypeError: '>=' not supported between instances of 'DeclarativeMeta' and 'str'
