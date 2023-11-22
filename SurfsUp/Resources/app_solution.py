@@ -98,15 +98,17 @@ def user_start(start):
        the date range, or a 404 if not."""
     #lets get temps
     select_temps = [func.min(measurement_ref.tobs), func.max(measurement_ref.tobs), func.avg(measurement_ref.tobs)] #use 'avg' not 'mean'
+    start = "11222023"
+    start_object = datetime.datetime.strptime(start, "%Y%m%d")
     #sqlalchemy.exc.ArgumentError: Column expression or FROM clause expected, got [<sqlalchemy.sql.functions.min at 0x165ba4d10; min>, <sqlalchemy.sql.functions.max at 0x16515d490; max>, <sqlalchemy.sql.functions.Function at 0x1645efe10; avg>].
     select_start = session.query(*select_temps).\
-        filter(measurement_ref.date >= start).all() #TypeError: '>=' not supported between instances of 'DeclarativeMeta' and 'str'
+        filter(measurement_ref.date >= start_object).all() #TypeError: '>=' not supported between instances of 'DeclarativeMeta' and 'str'
         #filter(measurement_ref)
     session.close()
     user_start_query = list(np.ravel(select_start))
     return jsonify(user_start_query)
     
-@app.route("/api/v1.0/temp/start/end") # ithink this is from any start to any end within date range..
+@app.route("/api/v1.0/temp/<start>/<end>") # ithink this is from any start to any end within date range..
 def user_start_end(start, end):
     session = Session(engine)
     """Fetch the max, min, avg of temps with start_date that is within
